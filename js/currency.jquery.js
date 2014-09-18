@@ -39,16 +39,25 @@ $( document ).ready(function() {
     }
 
     // When dropdown selection changes
-
     $( "#currency_converter" ).delegate( "#select_currency", "change", function() {
 
         var newly_selected_currency_code = $(this).val();
+        var old_currency_rate = 'USD';
 
-        get_currency_rate('USD', newly_selected_currency_code);
+        var rate_response = get_currency_rate(old_currency_rate, newly_selected_currency_code);
 
-        console.log($(this).getWatchList());
+
 
     });
+
+    // Replace all values on the page
+    function change_currency_value(rate_response){
+
+        var watch_list = $(this).getWatchList();
+
+        console.log(rate_response);
+
+    }
 
     // Get live currency rate
     function get_currency_rate(old_currency, new_currency){
@@ -57,7 +66,7 @@ $( document ).ready(function() {
         var rate_string = 'from='+old_currency+'&to='+new_currency+'&q='+quantity;
 
         // Get the rate/value
-        $.ajax({
+        var response = $.ajax({
             url: rate_exchange_url+rate_string,
             jsonp: "callback",
             dataType: "jsonp",
@@ -68,9 +77,15 @@ $( document ).ready(function() {
 
             // work with the response
             success: function( response ) {
-                console.log( response ); // server response
+                change_currency_value(response);
             }
         });
+
+
+        return response;
+
+
+
     }
 
 
@@ -86,7 +101,7 @@ $( document ).ready(function() {
 
 });
 
-
+// JQuery Plugin
 (function( $ ) {
 
     var watch_list = new Array();
