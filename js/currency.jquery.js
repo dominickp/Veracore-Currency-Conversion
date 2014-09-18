@@ -10,7 +10,7 @@ $( document ).ready(function() {
         "GBP" : {
             "name"  : "British Pound",
             "fa"    : "&#xf154;",
-            "symbol": "$"
+            "symbol": "£"
         },
         "EUR" : {
             "name"  : "Euro",
@@ -19,15 +19,41 @@ $( document ).ready(function() {
         }
     }
 
+    // Read cookie on start
+    function readCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0;i < ca.length;i++) {
+            var c = ca[i];
+            while (c.charAt(0)==' ') c = c.substring(1,c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+        }
+        return null;
+    }
+    var cookie_name = 'VeracoreCurrencyDefault';
+    // Get an existing default currency
+    existing_price_default = readCookie(cookie_name);
+    // Check if its empty
+    if(existing_price_default.length){
+        console.log('DEFAULT CURRENCY IS  '+existing_price_default);
+    } else {
+        existing_price_default = "USD";
+    }
+
+
     // Build currency converter
-    function build_currency_selector(){
+    function build_currency_selector(existing_price_default){
 
         var select_begin = '<select id="select_currency" class="form-control">';
         var option_list = '';
 
         // Building options list
         $.each(currencies, function(code, currency) {
-            option_list = option_list + '<option value="' + code + '">' + currency["fa"] + ' ' + currency["name"] + '</option>';
+            var selected_flag = '';
+            if(code == existing_price_default){
+                selected_flag = ' selected'
+            }
+            option_list = option_list + '<option value="' + code + '"' + selected_flag + '>' + currency["fa"] + ' ' + currency["name"] + '</option>';
             //console.log(1);
         });
 
@@ -42,8 +68,6 @@ $( document ).ready(function() {
     $( "#currency_converter" ).delegate( "#select_currency", "change", function() {
 
         var newly_selected_currency_code = $(this).val();
-        var old_currency_rate = 'USD';
-
 
         // Read/set cookies
         var old_currency_code = set_currency_cookie(newly_selected_currency_code);
@@ -59,8 +83,7 @@ $( document ).ready(function() {
         $(this).attr('data-currency-old', old_currency_code);
         $(this).attr('data-currency-new', newly_selected_currency_code);
 
-        var rate_response = get_currency_rate(old_currency_rate, newly_selected_currency_code);
-
+        var rate_response = get_currency_rate(old_currency_code, newly_selected_currency_code);
 
 
     });
@@ -79,23 +102,12 @@ $( document ).ready(function() {
             document.cookie = name+"="+value+expires+"; path=/";
         }
 
-        function readCookie(name) {
-            var nameEQ = name + "=";
-            var ca = document.cookie.split(';');
-            for(var i=0;i < ca.length;i++) {
-                var c = ca[i];
-                while (c.charAt(0)==' ') c = c.substring(1,c.length);
-                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-            }
-            return null;
-        }
-
         function eraseCookie(name) {
             createCookie(name,"",-1);
         }
 
         // Action
-        var cookie_name = 'VeracoreCurrencyDefault';
+
         // Read old cookie value
         var old_currency_type = readCookie(cookie_name);
         console.log('OLD CURRENCY TYPE');
@@ -136,7 +148,7 @@ $( document ).ready(function() {
             var new_price = roundToTwo(new_price_long);
 
             // Write the new price out
-            $(node).text(new_price);
+            $(node).text(currencies[rate_response.to].symbol + new_price);
 
         });
 
@@ -174,9 +186,12 @@ $( document ).ready(function() {
 
 
     // Initialize
-    build_currency_selector();
+    build_currency_selector(existing_price_default);
 
-    //get_currency_rate('USD', 'EUR');
+    // Check if default is anything other than USD and force action on page load if so
+    if(existing_price_default != 'USD'){
+        var rate_response = get_currency_rate('USD', existing_price_default);
+    }
 
 
 
