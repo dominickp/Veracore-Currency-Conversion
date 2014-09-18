@@ -5,17 +5,17 @@ $( document ).ready(function() {
         "USD" : {
             "name"  : "US Dollar",
             "fa"    : "&#xf155;",
-            "symbol": "$"
+            "symbol": "&#36;"
         },
         "GBP" : {
             "name"  : "British Pound",
             "fa"    : "&#xf154;",
-            "symbol": "£"
+            "symbol": "&#163;"
         },
         "EUR" : {
             "name"  : "Euro",
             "fa"    : "&#xf153;",
-            "symbol": "€"
+            "symbol": "&#128;"
         }
     }
 
@@ -53,7 +53,7 @@ $( document ).ready(function() {
             if(code == existing_price_default){
                 selected_flag = ' selected'
             }
-            option_list = option_list + '<option value="' + code + '"' + selected_flag + '>' + currency["fa"] + ' ' + currency["name"] + '</option>';
+            option_list = option_list + '<option value="' + code + '"' + selected_flag + '>' + currency["symbol"] + ' ' + currency["name"] + '</option>';
             //console.log(1);
         });
 
@@ -130,6 +130,10 @@ $( document ).ready(function() {
 
         $(watch_list).each( function(index, node) {
 
+            console.log(node.selector);
+
+            var node = $(node.selector);
+
             // Set some data attributes
             $(node).attr('data-currency-old', rate_response.from);
             $(node).attr('data-currency-new', rate_response.to);
@@ -148,7 +152,7 @@ $( document ).ready(function() {
             var new_price = roundToTwo(new_price_long);
 
             // Write the new price out
-            $(node).text(currencies[rate_response.to].symbol + new_price);
+            $(node).html(currencies[rate_response.to].symbol + new_price);
 
         });
 
@@ -184,7 +188,6 @@ $( document ).ready(function() {
     }
 
 
-
     // Initialize
     build_currency_selector(existing_price_default);
 
@@ -192,9 +195,6 @@ $( document ).ready(function() {
     if(existing_price_default != 'USD'){
         var rate_response = get_currency_rate('USD', existing_price_default);
     }
-
-
-
 
 
 });
