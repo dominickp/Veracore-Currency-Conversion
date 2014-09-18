@@ -32,9 +32,9 @@ $( document ).ready(function() {
     }
     var cookie_name = 'VeracoreCurrencyDefault';
     // Get an existing default currency
-    existing_price_default = readCookie(cookie_name);
+    var existing_price_default = readCookie(cookie_name);
     // Check if its empty
-    if(existing_price_default.length){
+    if(existing_price_default && existing_price_default.length){
         console.log('DEFAULT CURRENCY IS  '+existing_price_default);
     } else {
         existing_price_default = "USD";
@@ -72,7 +72,7 @@ $( document ).ready(function() {
         // Read/set cookies
         var old_currency_code = set_currency_cookie(newly_selected_currency_code);
 
-        if(old_currency_code.length){
+        if(old_currency_code && old_currency_code.length){
             console.log('old code was '+old_currency_code);
         } else {
             console.log('old code was null, USD set');
