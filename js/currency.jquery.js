@@ -57,6 +57,12 @@ $( document ).ready(function() {
 
         console.log(rate_response);
 
+        $(watch_list).each( function(index, node) {
+            $(node).html('gotcha');
+            console.log(node);
+            console.log(node.context.nodeName);
+        });
+
     }
 
     // Get live currency rate
@@ -108,12 +114,11 @@ $( document ).ready(function() {
 
     $.fn.currencyWatch = function() {
 
-        var test = 'test';
+        //var to_watch = $(this).toArray();
 
-        var to_watch = $(this).toArray();
-
-        watch_list.push(to_watch);
-        //console.log('pushed one');
+        watch_list.push($(this));
+        //$(watch_list).add(this);
+        //console.log(watch_list);
 
     };
 
