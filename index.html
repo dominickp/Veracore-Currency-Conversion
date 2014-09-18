@@ -23,17 +23,21 @@
 
 </head>
 <body>
+
     <div class="container">
         <br>
         <div class="row">
-            <div class="col-md-8"><h1>Hello, world!</h1></div>
+            <div class="col-md-8">
+                <h1>Hello, world!</h1>
+                <hr>
+                <span id="example1">$5.00</span>
+                <span id="example2">$5.00</span>
+            </div>
             <div class="col-md-2">
                 <div id="currency_converter">currency_converter</div>
             </div>
         </div>
     </div>
-
-
 
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -42,6 +46,11 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <!-- Include currency converter -->
 <script src="js/currency.jquery.js"></script>
+
+<script>
+    $("example1").currencyWatch();
+    $("example2").currencyWatch();
+</script>
 
 </body>
 </html>
