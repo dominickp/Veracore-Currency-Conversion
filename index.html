@@ -28,8 +28,9 @@
             <div class="col-md-8">
                 <h1>Hello, world!</h1>
                 <hr>
-                <span id="example1">$5.25</span>
-                <span id="example2">$9.58</span>
+                <span class="price" id="example1">$5.25</span>
+                <span class="price" id="example2">$9.58</span>
+                <span id="example3">$2.18</span>
             </div>
             <div class="col-md-2">
                 <div id="currency_converter">currency_converter</div>
@@ -46,8 +47,7 @@
 <script src="js/currency.jquery.js"></script>
 
 <script>
-    $("#example1").currencyWatch();
-    $("#example2").currencyWatch();
+    $(".price, #example3").currencyWatch();
 </script>
 
 </body>

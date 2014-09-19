@@ -73,9 +73,9 @@ $( document ).ready(function() {
         var old_currency_code = set_currency_cookie(newly_selected_currency_code);
 
         if(old_currency_code && old_currency_code.length){
-            console.log('old code was '+old_currency_code);
+            //console.log('old code was '+old_currency_code);
         } else {
-            console.log('old code was null, USD set');
+            //console.log('old code was null, USD set');
             old_currency_code = "USD";
         }
 
@@ -110,8 +110,8 @@ $( document ).ready(function() {
 
         // Read old cookie value
         var old_currency_type = readCookie(cookie_name);
-        console.log('OLD CURRENCY TYPE');
-        console.log(old_currency_type);
+        //console.log('OLD CURRENCY TYPE');
+        //console.log(old_currency_type);
         // Delete a cookie if one exists
         eraseCookie(cookie_name);
         // Create new one
@@ -130,9 +130,7 @@ $( document ).ready(function() {
 
         $(watch_list).each( function(index, node) {
 
-            console.log(node.selector);
-
-            var node = $(node.selector);
+            //console.log(node);
 
             // Set some data attributes
             $(node).attr('data-currency-old', rate_response.from);
@@ -203,14 +201,30 @@ $( document ).ready(function() {
 (function( $ ) {
 
     var watch_list = new Array();
+    //var watch_list = $();
 
     $.fn.currencyWatch = function() {
 
         //var to_watch = $(this).toArray();
 
-        watch_list.push($(this));
+        //watch_list.push($(this));
+
+        watch_list = this;
+
+
         //$(watch_list).add(this);
         //console.log(watch_list);
+
+        //console.log(this);
+
+/*
+        // Each function
+        $(this).each(function(index, value){
+            //watch_list.push(this);
+            console.log(this);
+            //watch_list.add(this);
+        });
+*/
 
     };
 
