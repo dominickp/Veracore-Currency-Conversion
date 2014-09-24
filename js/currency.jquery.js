@@ -82,6 +82,7 @@ $( document ).ready(function() {
         // Set some data attributes
         $(this).attr('data-currency-old', old_currency_code);
         $(this).attr('data-currency-new', newly_selected_currency_code);
+        $(this).addClass('converted');
 
         var rate_response = get_currency_rate(old_currency_code, newly_selected_currency_code);
 
@@ -135,6 +136,7 @@ $( document ).ready(function() {
             // Set some data attributes
             $(node).attr('data-currency-old', rate_response.from);
             $(node).attr('data-currency-new', rate_response.to);
+            $(this).addClass('converted');
 
             var element_with_price_text = $(node).text();
 
